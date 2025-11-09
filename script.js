@@ -1,4 +1,4 @@
-// 🌙 Alternância de modo claro/escuro
+// 🌙 Tema claro/escuro com animação
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.getElementById("toggleTheme");
   if (toggle) {
@@ -15,7 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Página do cliente
+  // Splash screen
+  const splash = document.getElementById("splash");
+  if (splash) setTimeout(() => splash.style.display = "none", 2500);
+
+  // Página de agendamento
   const form = document.getElementById("formAgendamento");
   if (form) {
     form.addEventListener("submit", (e) => {
@@ -40,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (tabela) carregarAgendamentos();
 });
 
-// 🧾 Exibe agendamentos no painel
 function carregarAgendamentos() {
   const agendamentos = JSON.parse(localStorage.getItem("agendamentos")) || [];
   const tbody = document.querySelector("#tabelaAgendamentos tbody");
@@ -64,7 +67,6 @@ function carregarAgendamentos() {
   });
 }
 
-// ✅ Atualiza status e envia mensagem WhatsApp
 function atualizarStatus(index, novoStatus) {
   const agendamentos = JSON.parse(localStorage.getItem("agendamentos")) || [];
   const ag = agendamentos[index];
@@ -72,12 +74,11 @@ function atualizarStatus(index, novoStatus) {
   localStorage.setItem("agendamentos", JSON.stringify(agendamentos));
   carregarAgendamentos();
 
-  // Mensagem WhatsApp automática
   let mensagem = "";
   if (novoStatus === "Confirmado") {
-    mensagem = `Olá ${ag.nome}! 💅 Seu agendamento para ${ag.servico} em ${ag.data} às ${ag.hora} foi CONFIRMADO! \nAgradecemos pela preferência!\n\nQuando quiser, faça um novo agendamento.`;
+    mensagem = `Olá ${ag.nome}! 💅 Seu agendamento para ${ag.servico} em ${ag.data} às ${ag.hora} foi CONFIRMADO!✨\nAgradecemos pela preferência!\n\nQuando quiser, faça um novo agendamento.`;
   } else {
-    mensagem = `Olá ${ag.nome}! 💅 Infelizmente seu agendamento para ${ag.servico} em ${ag.data} às ${ag.hora} foi RECUSADO.\nO horário não está disponível.\nTente outro horário, por favor.`;
+    mensagem = `Olá ${ag.nome}! 💅 Infelizmente seu agendamento para ${ag.servico} em ${ag.data} às ${ag.hora} foi RECUSADO 😔.\nO horário não está disponível.\nTente outro horário, por favor.`;
   }
 
   const url = `https://wa.me/${ag.telefone}?text=${encodeURIComponent(mensagem)}`;

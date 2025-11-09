@@ -6,13 +6,20 @@
   <title>Painel da Dona - Nails Design</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header>
+<body class="fade-in">
+
+  <!-- Splash -->
+  <div id="splash">
+    <div class="splash-logo">💅</div>
+    <h2 class="splash-text">Painel da Dona</h2>
+  </div>
+
+  <header class="slide-down">
     <h1>📋 Painel da Dona</h1>
     <button id="toggleTheme">🌙</button>
   </header>
 
-  <main class="container">
+  <main class="container slide-up">
     <h2>Agendamentos Recebidos</h2>
     <table id="tabelaAgendamentos">
       <thead>
@@ -30,10 +37,11 @@
     </table>
   </main>
 
-  <footer>
+  <footer class="fade-in">
     <p>💅 Painel Administrativo Nails Design</p>
   </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
+
