@@ -84,3 +84,37 @@ function atualizarStatus(index, novoStatus) {
   const url = `https://wa.me/${ag.telefone}?text=${encodeURIComponent(mensagem)}`;
   window.open(url, "_blank");
 }
+
+// 💅 LOGIN DA DONA (simples e seguro via localStorage)
+document.addEventListener("DOMContentLoaded", () => {
+  const formLogin = document.getElementById("formLogin");
+
+  if (formLogin) {
+    formLogin.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const usuario = document.getElementById("usuario").value.trim();
+      const senha = document.getElementById("senha").value.trim();
+
+      // 🗝️ Usuário e senha definidos pela dona
+      const usuarioCorreto = "admin";
+      const senhaCorreta = "It@maraNa&ls";
+
+      if (usuario === usuarioCorreto && senha === senhaCorreta) {
+        localStorage.setItem("autenticado", "true");
+        window.location.href = "admin.html";
+      } else {
+        alert("Usuário ou senha incorretos!");
+      }
+    });
+  }
+
+  // 🛡️ Protege o painel admin
+  if (window.location.pathname.includes("admin.html")) {
+    const autenticado = localStorage.getItem("autenticado");
+    if (autenticado !== "true") {
+      alert("Acesso negado! Faça login primeiro.");
+      window.location.href = "login.html";
+    }
+  }
+});
