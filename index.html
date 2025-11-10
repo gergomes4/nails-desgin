@@ -54,32 +54,5 @@
 
   <script src="script.js"></script>
 
-  <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbxRKL3EWEI7D_8wBhku7D9qibZyS7w5tEKvufaNGPXVff2k9McIqZd-kve0Y7823fF83A/exec";
-
-document.querySelector("form").addEventListener("submit", e => {
-  e.preventDefault();
-
-  const formData = {
-    nome: document.querySelector("#nome").value,
-    telefone: document.querySelector("#telefone").value,
-    servico: document.querySelector("#servico").value,
-    data: document.querySelector("#data").value,
-    hora: document.querySelector("#hora").value,
-    observacoes: document.querySelector("#observacoes").value
-  };
-
-  fetch(scriptURL, {
-    method: "POST",
-    body: JSON.stringify(formData)
-  })
-  .then(response => {
-    alert("💅 Agendamento enviado com sucesso!");
-    document.querySelector("form").reset();
-  })
-  .catch(error => alert("Erro ao enviar: " + error.message));
-});
-</script>
-
 </body>
 </html>
