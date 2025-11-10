@@ -3,45 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel da Dona - Nails Design</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Painel da Dona 💅</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fff6fb;
+      color: #444;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #d63384;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #f2c7d2;
+      text-align: center;
+    }
+    th {
+      background-color: #ffdae6;
+      color: #b30059;
+    }
+    tr:hover {
+      background-color: #ffe6f0;
+    }
+    button {
+      border: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .confirmar { background-color: #ffc107; }
+    .recusar { background-color: #f44336; color: white; }
+    .status {
+      font-weight: bold;
+      color: #b30059;
+    }
+  </style>
 </head>
-<body class="fade-in">
+<body>
+  <h1>💅 Painel de Agendamentos</h1>
+  <table id="tabela">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Serviço</th>
+        <th>Data</th>
+        <th>Hora</th>
+        <th>Observações</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
-  <!-- Splash -->
-  <div id="splash">
-    <div class="splash-logo">💅</div>
-    <h2 class="splash-text">Painel da Dona</h2>
-  </div>
+  <script>
+  const sheetURL = "https://script.google.com/macros/s/AKfycbzp_erIruHHMz_LgrW9Emd_eOkOXKpqMhRnq4G7dRYuZGrFwLnKqNhb7z9jWun7fdjOkg/exec";
 
-  <header class="slide-down">
-    <h1>📋 Painel da Dona</h1>
-    <button id="toggleTheme">🌙</button>
-  </header>
+  async function carregarAgendamentos() {
+    const res = await fetch(sheetURL);
+    const dados = await res.json();
+    const tbody = document.querySelector("tbody");
+    tbody.innerHTML = "";
 
-  <main class="container slide-up">
-    <h2>Agendamentos Recebidos</h2>
-    <table id="tabelaAgendamentos">
-      <thead>
-        <tr>
-          <th>Cliente</th>
-          <th>Telefone</th>
-          <th>Serviço</th>
-          <th>Data</th>
-          <th>Hora</th>
-          <th>Status</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </main>
+    dados.forEach(ag => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${ag.nome}</td>
+        <td>${ag.telefone}</td>
+        <td>${ag.servico}</td>
+        <td>${ag.data}</td>
+        <td>${ag.hora}</td>
+        <td>${ag.observacoes}</td>
+        <td class="status">${ag.status}</td>
+        <td>
+          <button class="confirmar" onclick="atualizarStatus(${ag.id}, 'Confirmado')">Confirmar</button>
+          <button class="recusar" onclick="atualizarStatus(${ag.id}, 'Recusado')">Recusar</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
 
-  <footer class="fade-in">
-    <p>💅 Painel Administrativo Nails Design</p>
-  </footer>
+  async function atualizarStatus(id, status) {
+    await fetch(sheetURL, {
+      method: "PUT",
+      body: JSON.stringify({ id, status })
+    });
+    alert(`Status atualizado para: ${status}`);
+    carregarAgendamentos();
+  }
 
-  <script src="script.js"></script>
+  carregarAgendamentos();
+  </script>
 </body>
 </html>
+
 
